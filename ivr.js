@@ -87,9 +87,9 @@ http.createServer(function (request, response) {
 			return;
 		}
 
-		console.log('400 Bad request (2)');
-		response.writeHead(400, {'Content-Type': 'text/plain'});
-		response.end('Bad request');
+		// console.log('400 Bad request (2)');
+		// response.writeHead(400, {'Content-Type': 'text/plain'});
+		// response.end('Bad request');
     });
 
 }).listen(port, address);
