@@ -8,8 +8,43 @@ exports.diningCourts = [
 
 exports.getMenu = function(diningCourtId) {
 	var date = new Date();
+	
+	var year = date.getFullYear().toString();
+	var month = date.getMonth() + 1;
+	if (month < 10)
+	{
+		month = "0" + month.toString();
+	}
+	else
+	{
+		month = month.toString();
+	}
+	var day = date.getDate();
+	if (day < 10)
+	{
+		day = "0" + day.toString();
+	}
+	else
+	{
+		day = day.toString();
+	}
 	var hour = date.getHours();
 	var minute = date.getMinutes();
+	
+	console.log("http://api.hfs.purdue.edu/menus/v1/locations/" + exports.diningCourts[diningCourtId] + "/" + month + "-" + day + "-" + year);
+	
+	var http = require("http");
+	var parseString = require('xml2js').parseString;
+	
+	http.get("http://api.hfs.purdue.edu/menus/v1/locations/" + exports.diningCourts[diningCourtId] + "/" + month + "-" + day + "-" + year, function(response) {
+		var menu = "";
+		response.on("data", function(chunk) {
+		    menu += chunk;
+		});
+		response.on("end", function() {
+		    console.log(menu);
+		});
+	});
 	
 	if (hour < 9 || hour == 9 && minute < 30)
 	{
@@ -25,17 +60,4 @@ exports.getMenu = function(diningCourtId) {
 	}
 }
 
-//var xmlHttp = new XMLHttpRequest();
-//xmlHttp.open("GET", "http://api.hfs.purdue.edu/menus/v1/locations/Earhart/10-18-2014", false);
-//xmlHttp.send(null);
-//console.log(xmlHttp.responseText);
-
-//http.get("http://api.hfs.purdue.edu/menus/v1/locations/Earhart/10-18-2014", function(data) {
-  //console.log(data);
-  //}).on('error', function(e) {
-  //console.log("Got error: " + e.message);
-  //});
-//  console.log(data);
-//}).on('error', function(e) {
-//  console.log("Got error: " + e.message);
-//});
+exports.getMenu(3);
