@@ -1,6 +1,6 @@
 var http = require('http');
 var menus = require('./menus');
-var address = '192.168.1.108';
+var address = '192.168.1.139';
 var port = process.env.PORT || 5000;
 http.createServer(function (request, response) {
 	console.log("*** New Request (" + request.url + ") ***");
@@ -57,11 +57,12 @@ http.createServer(function (request, response) {
 				};
 			}
 			else if (body.lastactionid == 'maingreetinggetdigits' && body.lastdigitsreceived != null && body.lastdigitsreceived <= menus.diningCourts.length){
-				var i = body.lastdigitsreceived-1;
-				menus.getMenu(i, sendMenu)
 				jsonResponse ={
 				    "action" : "play",
-				    "message" : null,
+				    "message" : (function() {
+				    		var i = body.lastdigitsreceived-1;
+				    		return menus.diningCourts[i] + " is serving " + menus.getMenu(i);
+				    	})(),
 				    "id" : "menu"
 				};
 			}
@@ -73,23 +74,15 @@ http.createServer(function (request, response) {
 			}
 
 			// Send response
-			function sendMenu(msg) {
-				var i = body.lastdigitsreceived-1;
-				jsonResponse.message = menus.diningCourts[i] + " is serving " + msg;
-				sendResponse();
-			
-			}
-			function sendResponse() {
-				console.log('response='+JSON.stringify(jsonResponse));
-				response.writeHead(200, {'Content-Type': 'text/json'});
-				response.end(JSON.stringify(jsonResponse));
-			}
+			console.log('response='+JSON.stringify(jsonResponse));
+			response.writeHead(200, {'Content-Type': 'text/json'});
+			response.end(JSON.stringify(jsonResponse));
 			return;
 		}
 
-		// console.log('400 Bad request (2)');
-		// response.writeHead(400, {'Content-Type': 'text/plain'});
-		// response.end('Bad request');
+		console.log('400 Bad request (2)');
+		response.writeHead(400, {'Content-Type': 'text/plain'});
+		response.end('Bad request');
     });
 
 }).listen(port, address);

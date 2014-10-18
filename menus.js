@@ -7,6 +7,8 @@ exports.diningCourts = [
 ];
 
 exports.getMenu = function(diningCourtId, callback) {
+	var done = false;
+	var str = "hello";
 	var date = new Date();
 	
 	var year = date.getFullYear().toString();
@@ -78,7 +80,13 @@ exports.getMenu = function(diningCourtId, callback) {
 			}
 			
 			//console.log(ret);
-			return callback(ret);
+			str = ret;
+			end = true;
+			return ret;
 		});
 	});
+	while(!end) {
+
+	}
+	return str;
 }
