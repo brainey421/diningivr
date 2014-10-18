@@ -57,12 +57,11 @@ http.createServer(function (request, response) {
 				};
 			}
 			else if (body.lastactionid == 'maingreetinggetdigits' && body.lastdigitsreceived != null && body.lastdigitsreceived <= menus.diningCourts.length){
+				var i = body.lastdigitsreceived-1;
+				menus.getMenu(i, sendMenu)
 				jsonResponse ={
 				    "action" : "play",
-				    "message" : (function() {
-				    		var i = body.lastdigitsreceived-1;
-				    		return menus.diningCourts[i] + " is serving " + menus.getMenu(i);
-				    	})(),
+				    "message" : null,
 				    "id" : "menu"
 				};
 			}
@@ -74,9 +73,17 @@ http.createServer(function (request, response) {
 			}
 
 			// Send response
-			console.log('response='+JSON.stringify(jsonResponse));
-			response.writeHead(200, {'Content-Type': 'text/json'});
-			response.end(JSON.stringify(jsonResponse));
+			function sendMenu(msg) {
+				var i = body.lastdigitsreceived-1;
+				jsonResponse.message = menus.diningCourts[i] + " is serving " + msg;
+				sendResponse();
+			
+			}
+			function sendResponse() {
+				console.log('response='+JSON.stringify(jsonResponse));
+				response.writeHead(200, {'Content-Type': 'text/json'});
+				response.end(JSON.stringify(jsonResponse));
+			}
 			return;
 		}
 

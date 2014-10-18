@@ -6,7 +6,7 @@ exports.diningCourts = [
 	"Windsor"
 ];
 
-exports.getMenu = function(diningCourtId) {
+exports.getMenu = function(diningCourtId, callback) {
 	var date = new Date();
 	
 	var year = date.getFullYear().toString();
@@ -78,7 +78,7 @@ exports.getMenu = function(diningCourtId) {
 			}
 			
 			//console.log(ret);
-			return ret;
+			return callback(ret);
 		});
 	});
 }
