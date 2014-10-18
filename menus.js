@@ -78,6 +78,7 @@ exports.getMenu = function(diningCourtId) {
 		ret = "nothing for " + meal + "."
 	}
 	
+	ret.replace(/"/g, '&quot;');
 	console.log(ret);		
 	return ret;
 }
