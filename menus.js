@@ -38,8 +38,10 @@ exports.getMenu = function(diningCourtId) {
 	var httpsync = require("httpsync");
 	var menu = httpsync.get("http://api.hfs.purdue.edu/menus/v1/locations/" + exports.diningCourts[diningCourtId] + "/" + month + "-" + day + "-" + year);
 	menu = menu.end();
+	console.log(menu.data);
 	console.log(menu);
 	menu = JSON.parse(menu);
+	console.log(menu);
 			
 	var meal = "";
 	if (hour < 9 || hour == 9 && minute < 30)
