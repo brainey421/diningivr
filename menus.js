@@ -81,11 +81,11 @@ exports.getMenu = function(diningCourtId) {
 			
 			//console.log(ret);
 			str = ret;
-			end = true;
+			done = true;
 			return ret;
 		});
 	});
-	while(!end) {
+	while(!done) {
 
 	}
 	return str;
