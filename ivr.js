@@ -56,7 +56,7 @@ http.createServer(function (request, response) {
 				    "id" : "maingreetinggetdigits"
 				};
 			}
-			else if (body.lastactionid == 'maingreetinggetdigits' && body.lastdigitsreceived <= menus.diningCourts.length){
+			else if (body.lastactionid == 'maingreetinggetdigits' && body.lastdigitsreceived != null && body.lastdigitsreceived <= menus.diningCourts.length){
 				jsonResponse ={
 				    "action" : "play",
 				    "message" : (function() {
@@ -71,9 +71,6 @@ http.createServer(function (request, response) {
 			}
 			else if (body.lastactionid == 'menu'){
 				jsonResponse ={"id": null};
-			}
-			else {
-				jsonResponse = {"action" : "disconnect"};
 			}
 
 			// Send response
