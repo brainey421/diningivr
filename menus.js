@@ -1,6 +1,4 @@
-var http = require("http");
-
-var diningCourts = [
+exports.diningCourts = [
 	"Earhart",
 	"Ford",
 	"Hillenbrand",
@@ -37,3 +35,7 @@ exports.getMenu = function(diningCourtId) {
   //}).on('error', function(e) {
   //console.log("Got error: " + e.message);
   //});
+//  console.log(data);
+//}).on('error', function(e) {
+//  console.log("Got error: " + e.message);
+//});
