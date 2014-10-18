@@ -39,9 +39,9 @@ exports.getMenu = function(diningCourtId) {
 	var request = httpsync.get("http://api.hfs.purdue.edu/menus/v1/locations/" + exports.diningCourts[diningCourtId] + "/" + month + "-" + day + "-" + year);
 	var response = request.end();
 	var menu = response.data.toString();
-	console.log(menu);
+	//console.log(menu);
 	menu = JSON.parse(menu);
-	console.log(menu);
+	//console.log(menu);
 			
 	var meal = "";
 	if (hour < 9 || hour == 9 && minute < 30)

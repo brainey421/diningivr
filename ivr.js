@@ -77,6 +77,7 @@ http.createServer(function (request, response) {
 			console.log('response='+JSON.stringify(jsonResponse));
 			response.writeHead(200, {'Content-Type': 'text/json'});
 			response.end(JSON.stringify(jsonResponse));
+			console.log("STILL ALIVE");
 			return;
 		}
 
