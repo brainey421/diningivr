@@ -39,7 +39,14 @@ http.createServer(function (request, response) {
 			if (body.lastactionid == '' || body.lastactionid == undefined || body.lastactionid == null){
 				jsonResponse ={
 				    "action" : "play",
-				    "message" : "Thank you for calling the Google go I V R. Press 1 to continue. Also, " + menus.getMenu(0),
+				    "message" : (function() {
+				    	var str = "Which menu would you like to hear?";
+				    	for(var i = 0; i < menus.diningCourts.length; i++) {
+				    		str += " Press " + (i+1) + " for " + menus.diningCourts[i] + ".";
+				    	}
+				    	str += " To hear the options again, press " + (menus.diningCourts.length+1) + ".";
+				    	return str;
+				    })(),
 				    "id" : "maingreeting"
 				};
 			}
@@ -49,20 +56,21 @@ http.createServer(function (request, response) {
 				    "id" : "maingreetinggetdigits"
 				};
 			}
-			else if (body.lastactionid == 'maingreetinggetdigits' && body.lastdigitsreceived == '1'){
+			else if (body.lastactionid == 'maingreetinggetdigits' && body.lastdigitsreceived <= menus.diningCourts.length){
 				jsonResponse ={
 				    "action" : "play",
-				    "message" : "Great, Thank you.",
-				    "id" : "thankyou"
+				    "message" : (function() {
+				    		var i = body.lastdigitsreceived-1;
+				    		return menus.diningCourts[i] + " is serving " + menus.getMenu(i);
+				    	})(),
+				    "id" : "menu"
 				};
 			}
 			else if (body.lastactionid == 'maingreetinggetdigits'){
-				jsonResponse = {"action" : "disconnect"};
+				jsonResponse = {"id": null};
 			}
-			else if (body.lastactionid == 'thankyou'){
-				jsonResponse ={
-				    "action" : "transfertoqueue",
-				};
+			else if (body.lastactionid == 'menu'){
+				jsonResponse ={"id": null};
 			}
 			else {
 				jsonResponse = {"action" : "disconnect"};

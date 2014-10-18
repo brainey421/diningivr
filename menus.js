@@ -1,4 +1,4 @@
-var diningCourts = [
+exports.diningCourts = [
 	"Wiley",
 	"Windsor"
 ];
