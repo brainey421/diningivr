@@ -6,7 +6,7 @@ exports.diningCourts = [
 	"Windsor"
 ];
 
-exports.getMenu = function(diningCourtId, callback) {
+exports.getMenu = function(diningCourtId) {
 	var done = false;
 	var str = "hello";
 	var date = new Date();
