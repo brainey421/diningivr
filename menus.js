@@ -36,9 +36,9 @@ exports.getMenu = function(diningCourtId) {
 	console.log("Loading menu: " + "http://api.hfs.purdue.edu/menus/v1/locations/" + exports.diningCourts[diningCourtId] + "/" + month + "-" + day + "-" + year);
 	
 	var httpsync = require("httpsync");
-	var menu = httpsync.get("http://api.hfs.purdue.edu/menus/v1/locations/" + exports.diningCourts[diningCourtId] + "/" + month + "-" + day + "-" + year);
-	menu = menu.end();
-	console.log(menu.data);
+	var request = httpsync.get("http://api.hfs.purdue.edu/menus/v1/locations/" + exports.diningCourts[diningCourtId] + "/" + month + "-" + day + "-" + year);
+	var response = request.end();
+	var menu = response.data.toString();
 	console.log(menu);
 	menu = JSON.parse(menu);
 	console.log(menu);
