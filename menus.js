@@ -31,33 +31,54 @@ exports.getMenu = function(diningCourtId) {
 	var hour = date.getHours();
 	var minute = date.getMinutes();
 	
-	console.log("http://api.hfs.purdue.edu/menus/v1/locations/" + exports.diningCourts[diningCourtId] + "/" + month + "-" + day + "-" + year);
+	console.log("Loading menu: " + "http://api.hfs.purdue.edu/menus/v1/locations/" + exports.diningCourts[diningCourtId] + "/" + month + "-" + day + "-" + year);
 	
 	var http = require("http");
-	var parseString = require('xml2js').parseString;
-	
+	var menu = "";
 	http.get("http://api.hfs.purdue.edu/menus/v1/locations/" + exports.diningCourts[diningCourtId] + "/" + month + "-" + day + "-" + year, function(response) {
-		var menu = "";
 		response.on("data", function(chunk) {
 		    menu += chunk;
 		});
 		response.on("end", function() {
-		    console.log(menu);
+			menu = JSON.parse(menu);
+			
+			var meal = "";
+			if (hour < 9 || hour == 9 && minute < 30)
+			{
+				meal = "Breakfast";
+			}
+			else if (hour < 14)
+			{
+				meal = "Lunch";
+			}
+			else
+			{
+				meal = "Dinner";
+			}
+			
+			ret = "";
+			for (var i = 0; i < menu[meal].length; i++)
+			{
+				items = menu[meal][i]["Items"];
+				for (var j = 0; j < items.length; j++)
+				{
+					if (i == menu[meal].length - 1 && j == items.length - 1)
+					{
+						ret += "and " + items[j]["Name"] + " for " + meal + ".";
+					}
+					else
+					{
+						ret += items[j]["Name"] + ", ";
+					}
+				}
+			}
+			if (ret == "")
+			{
+				ret = "nothing for " + meal + "."
+			}
+			
+			//console.log(ret);
+			return ret;
 		});
 	});
-	
-	if (hour < 9 || hour == 9 && minute < 30)
-	{
-		return "breakfast";
-	}
-	else if (hour < 14)
-	{
-		return "lunch";
-	}
-	else
-	{
-		return "dinner";
-	}
 }
-
-exports.getMenu(3);
